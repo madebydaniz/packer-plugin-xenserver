@@ -260,13 +260,6 @@ func (self *Builder) Run(ctx context.Context, ui packer.Ui, hook packer.Hook) (p
 		},
 		new(xscommon.StepStartVmPaused),
 		new(xscommon.StepSetVmHostSshAddress),
-		// &xscommon.StepForwardPortOverSSH{
-		// 	RemotePort:  xscommon.InstanceVNCPort,
-		// 	RemoteDest:  xscommon.InstanceVNCIP,
-		// 	HostPortMin: self.config.HostPortMin,
-		// 	HostPortMax: self.config.HostPortMax,
-		// 	ResultKey:   "local_vnc_port",
-		// },
 		new(xscommon.StepBootWait),
 		&xscommon.StepTypeBootCommand{
 			Ctx: *self.config.GetInterpContext(),
@@ -292,12 +285,8 @@ func (self *Builder) Run(ctx context.Context, ui packer.Ui, hook packer.Hook) (p
 		new(xscommon.StepShutdown),
 	}
 
-	if !self.config.SkipSetTemplate {
-		steps = append(steps,
-			new(xscommon.StepSetVmToTemplate))
-	}
-
 	steps = append(steps,
+		new(xscommon.StepSetVmToTemplate))
 		&xscommon.StepDetachVdi{
 			VdiUuidKey: "iso_vdi_uuid",
 		},
