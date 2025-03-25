@@ -33,6 +33,7 @@ type Config struct {
 	RawInstallTimeout string        `mapstructure:"install_timeout"`
 	InstallTimeout    time.Duration ``
 	SourcePath        string        `mapstructure:"source_path"`
+	SkipSetTemplate bool `mapstructure:"skip_set_template"`
 
 	Firmware string `mapstructure:"firmware"`
 	
