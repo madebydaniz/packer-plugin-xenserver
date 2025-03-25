@@ -13,7 +13,7 @@ import (
 	hconfig "github.com/hashicorp/packer-plugin-sdk/template/config"
 	"github.com/hashicorp/packer-plugin-sdk/template/interpolate"
 	xsclient "github.com/terra-farm/go-xen-api-client"
-	xscommon "github.com/xenserver/packer-builder-xenserver/builder/xenserver/common"
+	xscommon "github.com/madebydaniz/packer-plugin-xenserver/builder/xenserver/common"
 )
 
 type Builder struct {

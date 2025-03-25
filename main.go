@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/xenserver/packer-builder-xenserver/builder/xenserver/iso"
-	"github.com/xenserver/packer-builder-xenserver/builder/xenserver/xva"
-	"github.com/xenserver/packer-builder-xenserver/version"
+	"github.com/madebydaniz/packer-plugin-xenserver/builder/xenserver/iso"
+	"github.com/madebydaniz/packer-plugin-xenserver/builder/xenserver/xva"
+	"github.com/madebydaniz/packer-plugin-xenserver/version"
 
 	"github.com/hashicorp/packer-plugin-sdk/plugin"
 )

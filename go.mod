@@ -1,4 +1,4 @@
-module github.com/xenserver/packer-builder-xenserver
+module github.com/madebydaniz/packer-plugin-xenserver
 
 go 1.20
 
