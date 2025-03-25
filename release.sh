@@ -1,10 +1,35 @@
 #!/bin/bash
 
-# Extract API_VERSION using go run
-API_VERSION=$(go run . describe | jq -r '.api_version')
+set -e
 
-# Export env var for goreleaser
+# Load env variables from .env file
+if [ -f .env ]; then
+  echo "📥 Loading environment from .env"
+	set -a
+  source .env
+	set +a
+else
+  echo "⚠️  .env file not found! Exiting..."
+  exit 1
+fi
+
+# Default flag: always include --clean
+GORELEASER_FLAGS="--clean $@"
+
+# Extract API_VERSION using go run
+echo "🔍 Getting API version from go run . describe ..."
+API_VERSION=$(go run . describe | jq -r '.api_version')
 export API_VERSION=$API_VERSION
 
-# Run goreleaser with the env var
-goreleaser release --clean
+echo "✅ API_VERSION=$API_VERSION"
+echo "🔐 GPG_FINGERPRINT=$GPG_FINGERPRINT"
+echo "🔑 GITHUB_TOKEN=************"
+
+# Always clean dist folder before build
+echo "🧹 Cleaning dist/ directory..."
+rm -rf dist/*
+
+
+# Run GoReleaser with provided flags
+echo "🚀 Running: goreleaser release $GORELEASER_FLAGS"
+goreleaser release $GORELEASER_FLAGS
