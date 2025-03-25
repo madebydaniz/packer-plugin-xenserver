@@ -29,6 +29,10 @@ echo "🔑 GITHUB_TOKEN=************"
 echo "🧹 Cleaning dist/ directory..."
 rm -rf dist/*
 
+# Run build
+echo "🏗️ Building packer-plugin-xenserver..."
+go build -o packer-plugin-xenserver
+
 
 # Run GoReleaser with provided flags
 echo "🚀 Running: goreleaser release $GORELEASER_FLAGS"
