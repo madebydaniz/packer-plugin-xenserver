@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/packer-plugin-sdk/packer"
 	hconfig "github.com/hashicorp/packer-plugin-sdk/template/config"
 	"github.com/hashicorp/packer-plugin-sdk/template/interpolate"
-	xsclient "github.com/terra-farm/go-xen-api-client"
 	xscommon "github.com/madebydaniz/packer-plugin-xenserver/builder/xenserver/common"
+	xsclient "github.com/terra-farm/go-xen-api-client"
 )
 
 type Builder struct {
@@ -286,7 +286,7 @@ func (self *Builder) Run(ctx context.Context, ui packer.Ui, hook packer.Hook) (p
 	}
 
 	steps = append(steps,
-		new(xscommon.StepSetVmToTemplate)),
+		new(xscommon.StepSetVmToTemplate),
 		&xscommon.StepDetachVdi{
 			VdiUuidKey: "iso_vdi_uuid",
 		},
