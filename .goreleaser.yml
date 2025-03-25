@@ -58,6 +58,11 @@ signs:
       - '${artifact}'
 release:
   draft: false
+  replace_existing_artifacts: true
+  target_commitish: '{{ .Commit }}'
+  tag: '{{ .CurrentTag }}'
+  mode: append
+  include_meta: true
 
 changelog:
   disable: true
