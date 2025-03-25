@@ -286,7 +286,7 @@ func (self *Builder) Run(ctx context.Context, ui packer.Ui, hook packer.Hook) (p
 	}
 
 	steps = append(steps,
-		new(xscommon.StepSetVmToTemplate))
+		new(xscommon.StepSetVmToTemplate)),
 		&xscommon.StepDetachVdi{
 			VdiUuidKey: "iso_vdi_uuid",
 		},
