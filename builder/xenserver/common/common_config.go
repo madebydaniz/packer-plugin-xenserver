@@ -57,6 +57,10 @@ type CommonConfig struct {
 	Format    string `mapstructure:"format"`
 	KeepVM    string `mapstructure:"keep_vm"`
 	IPGetter  string `mapstructure:"ip_getter"`
+
+	InstallationDoneFile    string        `mapstructure:"installation_done_file"`
+  RawInstallationDoneTimeout string     `mapstructure:"installation_done_timeout"`
+  InstallationDoneTimeout time.Duration
 }
 
 func (c *CommonConfig) Prepare(ctx *interpolate.Context, pc *common.PackerConfig) []error {
@@ -202,6 +206,14 @@ func (c *CommonConfig) Prepare(ctx *interpolate.Context, pc *common.PackerConfig
 	case "auto", "tools", "http":
 	default:
 		errs = append(errs, errors.New("ip_getter must be one of 'auto', 'tools', 'http'"))
+	}
+
+	if c.RawInstallationDoneTimeout == "" {
+    c.RawInstallationDoneTimeout = "120m"
+	}
+	c.InstallationDoneTimeout, err = time.ParseDuration(c.RawInstallationDoneTimeout)
+	if err != nil {
+			errs = append(errs, errors.New("Failed to parse installation_done_timeout"))
 	}
 
 	return errs

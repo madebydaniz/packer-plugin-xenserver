@@ -112,6 +112,8 @@ type FlatConfig struct {
 	SourcePath                *string           `mapstructure:"source_path" cty:"source_path" hcl:"source_path"`
 	Firmware                  *string           `mapstructure:"firmware" cty:"firmware" hcl:"firmware"`
 	SkipSetTemplate           *bool             `mapstructure:"skip_set_template" cty:"skip_set_template" hcl:"skip_set_template"`
+	InstallationDoneFile			*string           `mapstructure:"installation_done_file" cty:"installation_done_file" hcl:"installation_done_file"`
+	RawInstallationDoneTimeout		*string           `mapstructure:"installation_done_timeout" cty:"installation_done_timeout" hcl:"installation_done_timeout"`
 }
 
 // FlatMapstructure returns a new FlatConfig.
@@ -228,6 +230,8 @@ func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
 		"source_path":                  &hcldec.AttrSpec{Name: "source_path", Type: cty.String, Required: false},
 		"firmware":                     &hcldec.AttrSpec{Name: "firmware", Type: cty.String, Required: false},
 		"skip_set_template":            &hcldec.AttrSpec{Name: "skip_set_template", Type: cty.Bool, Required: false},
+		"installation_done_file":       &hcldec.AttrSpec{Name: "installation_done_file", Type: cty.String, Required: false},
+		"installation_done_timeout": 		&hcldec.AttrSpec{Name: "installation_done_timeout", Type: cty.String, Required: false},
 	}
 	return s
 }

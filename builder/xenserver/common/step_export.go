@@ -178,7 +178,7 @@ func (StepExport) Run(ctx context.Context, state multistep.StateBag) multistep.S
 				c.GetSession(),
 			)
 
-			ui.Say("Getting XVA " + export_url)
+			ui.Say("Getting OVA " + export_url)
 			err = downloadFile(export_url, export_filename, ui)
 		}
 
