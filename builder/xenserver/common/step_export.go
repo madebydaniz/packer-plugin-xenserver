@@ -149,6 +149,44 @@ func (StepExport) Run(ctx context.Context, state multistep.StateBag) multistep.S
 		compress_option_xe = "compress=true"
 		compress_option_url = "use_compression=true&"
 		fallthrough
+	case "ova":
+		// export the VM as an OVA
+		export_filename := fmt.Sprintf("%s/%s.ova", config.OutputDir, config.VMName)
+
+		use_xe := os.Getenv("USE_XE") == "1"
+		if xe, e := exec.LookPath("xe"); e == nil && use_xe {
+			cmd := exec.Command(
+				xe,
+				"-s", c.Host,
+				"-p", "443",
+				"-u", c.Username,
+				"-pw", c.Password,
+				"vm-export",
+				"vm="+instance_uuid,
+				compress_option_xe,
+				"filename="+export_filename,
+			)
+
+			ui.Say(fmt.Sprintf("Getting OVA %+v %+v", cmd.Path, cmd.Args))
+
+			err = cmd.Run()
+		} else {
+			export_url := fmt.Sprintf("https://%s/export?%suuid=%s&session_id=%s",
+				c.Host,
+				compress_option_url,
+				instance_uuid,
+				c.GetSession(),
+			)
+
+			ui.Say("Getting XVA " + export_url)
+			err = downloadFile(export_url, export_filename, ui)
+		}
+
+		if err != nil {
+			ui.Error(fmt.Sprintf("Could not download XVA: %s", err.Error()))
+			return multistep.ActionHalt
+		}
+
 	case "xva":
 		// export the VM
 
