@@ -24,31 +24,17 @@ func (s *StepWaitForRemoteFile) Run(ctx context.Context, state multistep.StateBa
 
 	ui.Say(fmt.Sprintf("=== Waiting for signal file: '%s' ===", s.Path))
 
-	timeout := time.After(s.Timeout)
-	tick := time.Tick(5 * time.Second)
+	cmd := fmt.Sprintf("test -f '%s'", s.Path)
+	_, err := RetryableExecuteGuestSSHCmd(state, cmd, s.Timeout)
 
-	for {
-		select {
-		case <-ctx.Done():
-			ui.Say("Context cancelled while waiting for signal file.")
-			return multistep.ActionHalt
-
-		case <-timeout:
-			err := fmt.Errorf("Timeout reached while waiting for file '%s'", s.Path)
-			state.Put("error", err)
-			return multistep.ActionHalt
-
-		case <-tick:
-			cmd := fmt.Sprintf("test -f '%s'", s.Path)
-			_, err := ExecuteGuestSSHCmd(state, cmd)
-			if err == nil {
-				ui.Message("Signal file found. Continuing...")
-				return multistep.ActionContinue
-			} else {
-				ui.Message("Waiting... file not found yet.")
-			}
-		}
+	if err != nil {
+		ui.Error(fmt.Sprintf("Error waiting for remote file: %s", err))
+		state.Put("error", err)
+		return multistep.ActionHalt
 	}
+
+	ui.Message("Signal file found. Continuing...")
+	return multistep.ActionContinue
 }
 
 func (s *StepWaitForRemoteFile) Cleanup(state multistep.StateBag) {}

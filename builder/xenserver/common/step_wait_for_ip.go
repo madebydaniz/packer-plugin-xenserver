@@ -49,6 +49,8 @@ func (self *StepWaitForIP) Run(ctx context.Context, state multistep.StateBag) mu
 
 			if config.IPGetter == "auto" || config.IPGetter == "tools" {
 
+				console, err := c.client.VM.GetConsoles(c.session, instance)
+
 				// Look for PV IP
 				m, err := c.client.VM.GetGuestMetrics(c.session, instance)
 				if err != nil {
