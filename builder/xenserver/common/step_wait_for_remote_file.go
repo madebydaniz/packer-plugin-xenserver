@@ -93,12 +93,11 @@ func (s *StepWaitForRemoteFile) Run(ctx context.Context, state multistep.StateBa
 			}
 
 			// Try executing the SSH command to check for the existence of the file.
-			var out string
 			var execErr error
 			retryCount := 3
 			for i := 0; i < retryCount; i++ {
 				// Execute "test -f <file>" on the guest via SSH.
-				out, execErr = ExecuteGuestSSHCmd(state, fmt.Sprintf("test -f '%s'", s.Path))
+				_, execErr = ExecuteGuestSSHCmd(state, fmt.Sprintf("test -f '%s'", s.Path))
 				if execErr == nil {
 					break
 				}
