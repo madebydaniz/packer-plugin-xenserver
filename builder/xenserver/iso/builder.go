@@ -282,12 +282,6 @@ func (self *Builder) Run(ctx context.Context, ui packer.Ui, hook packer.Hook) (p
 			SSHPort:   xscommon.InstanceSSHPort,
 		},
 		new(commonsteps.StepProvision),
-
-		&xscommon.StepWaitForRemoteFile{
-			Path:    self.config.InstallationDoneFile,
-			Timeout: self.config.InstallationDoneTimeout,
-		},
-
 		new(xscommon.StepShutdown),
 	}
 
