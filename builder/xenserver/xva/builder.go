@@ -3,7 +3,6 @@ package xva
 import (
 	"context"
 	"errors"
-	"time"
 
 	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer-plugin-sdk/communicator"
@@ -12,8 +11,8 @@ import (
 	"github.com/hashicorp/packer-plugin-sdk/packer"
 	hconfig "github.com/hashicorp/packer-plugin-sdk/template/config"
 	"github.com/hashicorp/packer-plugin-sdk/template/interpolate"
-	xsclient "github.com/terra-farm/go-xen-api-client"
 	xscommon "github.com/madebydaniz/packer-plugin-xenserver/builder/xenserver/common"
+	xsclient "github.com/terra-farm/go-xen-api-client"
 )
 
 type Builder struct {
